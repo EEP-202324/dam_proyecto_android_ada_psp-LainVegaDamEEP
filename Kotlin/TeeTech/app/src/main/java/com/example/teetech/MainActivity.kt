@@ -3,18 +3,35 @@ package com.example.teetech
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,8 +42,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.teetech.model.TShirt
 import com.example.teetech.ui.theme.TeeTechTheme
 import com.example.teetech.viewmodel.TShirtViewModel
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,47 +84,67 @@ fun TShirtScreen(navController: NavController) {
         }
     }
 }
-
 @Composable
 fun TShirtItem(tShirt: TShirt) {
+    val iconColor = parseColor(tShirt.color) // Color del ícono basado en el color de la camiseta
+
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .clickable { /* Handle card click */ },
+            .fillMaxWidth()
+            .clickable { /* Acción al hacer clic en la tarjeta */ },
         shape = RoundedCornerShape(8.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        )
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White) // Fondo blanco para todas las tarjetas
     ) {
-        Surface(color = MaterialTheme.colorScheme.surfaceVariant) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Column(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.weight(1f)
             ) {
                 Text(
                     text = "Size: ${tShirt.size}",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.Black // Texto en negro para contraste
                 )
                 Text(
                     text = "Color: ${tShirt.color}",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.Black
                 )
                 Text(
                     text = "Sleeve: ${tShirt.sleeve}",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.Black
                 )
                 Text(
                     text = "Weight: ${tShirt.weight} grams",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.Black
                 )
             }
+            Icon(
+                painter = painterResource(id = R.drawable.ic_tshirt), // Asegúrate de que este es el correcto ID del recurso
+                contentDescription = "Camiseta",
+                tint = iconColor, // El ícono se colorea según el color de la camiseta
+                modifier = Modifier.size(48.dp)
+            )
         }
+    }
+}
+
+fun parseColor(colorName: String): Color {
+    return when (colorName.toLowerCase()) {
+        "red" -> Color.Red
+        "black" -> Color.Black
+        "blue" -> Color.Blue
+        "green" -> Color.Green
+        "yellow" -> Color.Yellow
+        "pink" -> Color.Magenta
+        "purple" -> Color(0xFF800080)
+        else -> Color.LightGray // Un color por defecto si no coincide ninguno
     }
 }
 
@@ -119,9 +154,9 @@ fun PreviewTShirtItem() {
     TShirtItem(TShirt(1, "M", "Red", "Short", 150, "Unisex"))
 }
 
+
 @Composable
 fun CreateTShirtScreen(viewModel: TShirtViewModel) {
-    // Estado local para almacenar los valores del formulario
     var size by remember { mutableStateOf("") }
     var color by remember { mutableStateOf("") }
     var sleeve by remember { mutableStateOf("") }
@@ -134,9 +169,7 @@ fun CreateTShirtScreen(viewModel: TShirtViewModel) {
         TextField(value = sleeve, onValueChange = { sleeve = it }, label = { Text("Manga") })
         TextField(value = weight, onValueChange = { weight = it }, label = { Text("Gramaje") })
         TextField(value = gender, onValueChange = {gender = it}, label = { Text("Género") })
-        Button(onClick = {
-            viewModel.createTShirt(TShirt(0, size, color, sleeve, weight.toInt(), gender))
-        }) {
+        Button(onClick = { viewModel.createTShirt(TShirt(0, size, color, sleeve, weight.toInt(), gender)) }) {
             Text("Crear Camiseta")
         }
     }
