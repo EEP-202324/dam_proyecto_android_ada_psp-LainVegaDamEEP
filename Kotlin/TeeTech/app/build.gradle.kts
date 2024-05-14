@@ -50,6 +50,27 @@ android {
 }
 
 dependencies {
+    dependencies {
+        // ViewModel y LiveData
+        implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+        implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+        implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
+        // Coroutines para trabajar con llamadas asíncronas
+        implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+
+        // Retrofit para las llamadas de red
+        implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+        implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    }
+
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+// Retrofit with Scalar Converter
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -59,6 +80,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
