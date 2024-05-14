@@ -5,6 +5,8 @@ data class TShirt(
     val size: String,
     val color: String,
     val sleeve: String,
-    val weight: Int
+    val weight: Int,
+    val gender: String
 )
+
 

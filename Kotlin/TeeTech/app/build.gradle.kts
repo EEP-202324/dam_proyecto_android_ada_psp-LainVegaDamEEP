@@ -47,21 +47,20 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-}
+}val navVersion = "2.5.1"
 
 dependencies {
-    dependencies {
-        // ViewModel y LiveData
-        implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
-        implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
-        implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-        // Coroutines para trabajar con llamadas asíncronas
-        implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("androidx.navigation:navigation-compose:$navVersion")
+    // ViewModel y LiveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
+    // Coroutines para trabajar con llamadas asíncronas
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
-        // Retrofit para las llamadas de red
-        implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-        implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    }
+    // Retrofit para las llamadas de red
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
 
     // Retrofit
@@ -81,6 +80,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
