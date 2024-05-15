@@ -40,6 +40,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.teetech.model.TShirt
+import com.example.teetech.ui.CreateTShirtScreen
+import com.example.teetech.ui.TShirtScreen
 import com.example.teetech.ui.theme.TeeTechTheme
 import com.example.teetech.viewmodel.TShirtViewModel
 
@@ -51,19 +53,14 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     NavHost(navController = navController, startDestination = "tShirtList") {
-                        composable("tShirtList") {
-                            TShirtScreen(navController)
-                        }
-                        composable("createTShirt") {
-                            CreateTShirtScreen(viewModel())
-                        }
+                        composable("tShirtList") { TShirtScreen(navController) }
+                        composable("createTShirt") { CreateTShirtScreen(viewModel()) }
                     }
                 }
             }
         }
     }
 }
-
 @Composable
 fun TShirtScreen(navController: NavController) {
     val viewModel: TShirtViewModel = viewModel()
@@ -152,25 +149,4 @@ fun parseColor(colorName: String): Color {
 @Composable
 fun PreviewTShirtItem() {
     TShirtItem(TShirt(1, "M", "Red", "Short", 150, "Unisex"))
-}
-
-
-@Composable
-fun CreateTShirtScreen(viewModel: TShirtViewModel) {
-    var size by remember { mutableStateOf("") }
-    var color by remember { mutableStateOf("") }
-    var sleeve by remember { mutableStateOf("") }
-    var weight by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("") }
-
-    Column {
-        TextField(value = size, onValueChange = { size = it }, label = { Text("Talla") })
-        TextField(value = color, onValueChange = { color = it }, label = { Text("Color") })
-        TextField(value = sleeve, onValueChange = { sleeve = it }, label = { Text("Manga") })
-        TextField(value = weight, onValueChange = { weight = it }, label = { Text("Gramaje") })
-        TextField(value = gender, onValueChange = {gender = it}, label = { Text("Género") })
-        Button(onClick = { viewModel.createTShirt(TShirt(0, size, color, sleeve, weight.toInt(), gender)) }) {
-            Text("Crear Camiseta")
-        }
-    }
 }

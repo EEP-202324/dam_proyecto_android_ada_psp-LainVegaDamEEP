@@ -11,10 +11,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class TShirtViewModel() : ViewModel() {
+class TShirtViewModel : ViewModel() {
     private val _tShirts = MutableStateFlow<List<TShirt>>(emptyList())
     val tShirts: StateFlow<List<TShirt>> = _tShirts.asStateFlow()
-
 
     fun loadTShirts() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -22,16 +21,23 @@ class TShirtViewModel() : ViewModel() {
             if (response.isSuccessful) {
                 _tShirts.value = response.body()!!
             } else {
-                Log.e("TShirtViewModel", response.errorBody().toString())
+                Log.e("TShirtViewModel", "Failed to load t-shirts: ${response.errorBody()?.string()}")
             }
         }
     }
 
-    fun navigateToCreateTShirtScreen() {
-        TODO("Not yet implemented")
-    }
-
     fun createTShirt(tShirt: TShirt) {
-// TODO: Implementar la creación de una camiseta
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = TShirtApi.retrofitService.createTShirt(tShirt)
+            if (response.isSuccessful) {
+                loadTShirts() // Refresh the list
+            } else {
+                Log.e("TShirtViewModel", "Failed to create t-shirt: ${response.errorBody()?.string()}")
+            }
+        }
     }
 }
+
+
+
+
