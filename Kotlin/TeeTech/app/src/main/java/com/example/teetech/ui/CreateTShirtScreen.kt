@@ -22,7 +22,7 @@ import com.example.teetech.viewmodel.TShirtViewModel
 
 @Composable
 fun CreateTShirtScreen(viewModel: TShirtViewModel) {
-    val backgroundBrush = Brush.verticalGradient( //fondo con gradiente de blanco a gris medio
+    val backgroundBrush = Brush.verticalGradient(
         colors = listOf(Color.White, Color.LightGray),
         startY = 0f,
         endY = 1000f
@@ -31,16 +31,13 @@ fun CreateTShirtScreen(viewModel: TShirtViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            //fondo con gradiente de blanco a gris medio
             .background(brush = backgroundBrush)
-
-
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState())  // Habilita el scroll si los elementos son muchos
+                .verticalScroll(rememberScrollState())
         ) {
             var size by remember { mutableStateOf(OptionsProvider.sizes.first()) }
             var color by remember { mutableStateOf(OptionsProvider.colors.first()) }
@@ -48,22 +45,24 @@ fun CreateTShirtScreen(viewModel: TShirtViewModel) {
             var weight by remember { mutableStateOf("") }
             var gender by remember { mutableStateOf(OptionsProvider.genders.first()) }
 
-            // Asegurándonos de que cada campo tiene un fondo blanco
-            DropdownField("Talla", OptionsProvider.sizes, size, Modifier.background(Color.White))
-            DropdownField("Color", OptionsProvider.colors, color, Modifier.background(Color.White))
-            DropdownField("Manga", OptionsProvider.sleeves, sleeve, Modifier.background(Color.White))
-            DropdownField("Género", OptionsProvider.genders, gender, Modifier.background(Color.White))
+            DropdownField("Talla", OptionsProvider.sizes, size, { size = it })
+            DropdownField("Color", OptionsProvider.colors, color, { color = it })
+            DropdownField("Manga", OptionsProvider.sleeves, sleeve, { sleeve = it })
+            DropdownField("Género", OptionsProvider.genders, gender, { gender = it })
+
             OutlinedTextField(
                 value = weight,
                 onValueChange = { newWeight -> weight = newWeight },
                 label = { Text("Gramaje") },
-                modifier = Modifier.fillMaxWidth().background(Color.White)  // Campo de texto ocupando todo el ancho con fondo blanco
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
             )
             Button(
                 onClick = {
                     viewModel.createTShirt(TShirt(0, size, color, sleeve, weight.toInt(), gender))
                 },
-                modifier = Modifier.fillMaxWidth().padding(top = 16.dp)  // Botón ocupando todo el ancho y con padding superior
+                modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
             ) {
                 Text("Crear Camiseta")
             }
@@ -71,12 +70,13 @@ fun CreateTShirtScreen(viewModel: TShirtViewModel) {
     }
 }
 
+
 @Composable
 fun DropdownField(
     label: String,
     options: List<String>,
     selectedOption: String,
-    onOptionSelected: Modifier,
+    onOptionSelected: (String) -> Unit,  // Cambio aquí para aceptar una función lambda
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -90,26 +90,23 @@ fun DropdownField(
             trailingIcon = {
                 Icon(Icons.Filled.ArrowDropDown, contentDescription = "Expand", Modifier.clickable { expanded = !expanded })
             },
-            modifier = modifier.fillMaxWidth()  // Asegura que el dropdown ocupe todo el ancho
+            modifier = modifier.fillMaxWidth()
         )
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
-            modifier = modifier.fillMaxWidth()  // Asegura que el menú desplegable ocupe todo el ancho
+            modifier = modifier.fillMaxWidth()
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
                     onClick = {
-                        onOptionSelected(option)
+                        onOptionSelected(option)  // Usar el callback para actualizar el estado
                         expanded = false
                     },
-                    text = { Text(option) }  // Texto de cada opción en el menú
+                    text = { Text(option) }
                 )
             }
         }
     }
 }
 
-fun onOptionSelected(option: String) {
-
-}
