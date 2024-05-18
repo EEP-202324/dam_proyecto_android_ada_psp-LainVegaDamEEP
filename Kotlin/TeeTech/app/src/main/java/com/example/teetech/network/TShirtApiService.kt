@@ -8,13 +8,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.DELETE
+import retrofit2.http.Path
 
-private const val BASE_URL =
-"http://10.0.2.2:8080" // esta es la IP del localhost del ordenador
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(GsonConverterFactory.create())
-    .baseUrl(BASE_URL)
-    .build()
+private const val BASE_URL = "http://10.0.2.2:8080" // esta es la IP del localhost del ordenador
+private val retrofit =
+    Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(BASE_URL).build()
 
 interface TShirtApiService {
     @GET("tshirts")
@@ -22,6 +21,9 @@ interface TShirtApiService {
 
     @POST("tshirts")
     suspend fun createTShirt(@Body tShirt: TShirt): Response<TShirt>
+
+    @DELETE("tshirts/{id}")
+    suspend fun deleteTShirt(@Path("id") id: Long): Response<Unit>  // Asumiendo que tu endpoint solo necesita el ID
 }
 
 

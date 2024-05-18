@@ -17,11 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.teetech.model.TShirt
 import com.example.teetech.viewmodel.TShirtViewModel
 
 @Composable
-fun CreateTShirtScreen(viewModel: TShirtViewModel) {
+fun CreateTShirtScreen(navController: NavController, viewModel: TShirtViewModel) {
     val backgroundBrush = Brush.verticalGradient(
         colors = listOf(Color.White, Color.LightGray),
         startY = 0f,
@@ -61,6 +62,8 @@ fun CreateTShirtScreen(viewModel: TShirtViewModel) {
             Button(
                 onClick = {
                     viewModel.createTShirt(TShirt(0, size, color, sleeve, weight.toInt(), gender))
+                    navController.popBackStack()  // Vuelve a la pantalla anterior después de crear la camiseta
+
                 },
                 modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
             ) {

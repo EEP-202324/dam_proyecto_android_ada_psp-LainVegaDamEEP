@@ -45,6 +45,7 @@ import com.example.teetech.ui.TShirtScreen
 import com.example.teetech.ui.theme.TeeTechTheme
 import com.example.teetech.viewmodel.TShirtViewModel
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,14 +54,19 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     NavHost(navController = navController, startDestination = "tShirtList") {
-                        composable("tShirtList") { TShirtScreen(navController) }
-                        composable("createTShirt") { CreateTShirtScreen(viewModel()) }
+                        composable("tShirtList") {
+                            TShirtScreen(navController, viewModel())
+                        }
+                        composable("createTShirt") {
+                            CreateTShirtScreen(navController, viewModel())
+                        }
                     }
                 }
             }
         }
     }
 }
+
 @Composable
 fun TShirtScreen(navController: NavController) {
     val viewModel: TShirtViewModel = viewModel()

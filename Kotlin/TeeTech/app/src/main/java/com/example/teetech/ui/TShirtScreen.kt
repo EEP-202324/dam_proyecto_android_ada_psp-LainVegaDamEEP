@@ -1,29 +1,21 @@
 package com.example.teetech.ui
 
+import TShirtItem
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.*
 import androidx.navigation.NavController
-import com.example.teetech.TShirtItem
-import com.example.teetech.model.TShirt
 import com.example.teetech.viewmodel.TShirtViewModel
 
 @Composable
-fun TShirtScreen(navController: NavController, viewModel: TShirtViewModel = viewModel()) {
-    val tShirts = viewModel.tShirts.collectAsState().value
+fun TShirtScreen(navController: NavController, viewModel: TShirtViewModel) {
+    val tShirts by viewModel.tShirts.collectAsState()
 
-    LaunchedEffect(key1 = Unit) {
-        viewModel.loadTShirts()
+    LaunchedEffect(key1 = true) {
+        viewModel.loadTShirts()  // Asegurarse de recargar cuando se navega a esta pantalla
     }
 
     Column {
@@ -32,7 +24,7 @@ fun TShirtScreen(navController: NavController, viewModel: TShirtViewModel = view
         }
         LazyColumn {
             items(tShirts) { tShirt ->
-                TShirtItem(tShirt)
+                TShirtItem(tShirt, viewModel)
             }
         }
     }
