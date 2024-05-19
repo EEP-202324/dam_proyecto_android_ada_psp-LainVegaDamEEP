@@ -22,7 +22,7 @@ import com.example.teetech.model.TShirt
 import com.example.teetech.viewmodel.TShirtViewModel
 
 @Composable
-fun CreateTShirtScreen(navController: NavController, viewModel: TShirtViewModel) {
+fun CreateTShirtScreen(navController: NavController) {
     val backgroundBrush = Brush.verticalGradient(
         colors = listOf(Color.White, Color.LightGray),
         startY = 0f,
@@ -61,6 +61,7 @@ fun CreateTShirtScreen(navController: NavController, viewModel: TShirtViewModel)
             )
             Button(
                 onClick = {
+                    val viewModel = TShirtViewModel()
                     viewModel.createTShirt(TShirt(0, size, color, sleeve, weight.toInt(), gender))
                     navController.popBackStack()  // Vuelve a la pantalla anterior después de crear la camiseta
 

@@ -1,6 +1,5 @@
 package com.example.teetech.ui
 
-import TShirtItem
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,8 +13,8 @@ import com.example.teetech.viewmodel.TShirtViewModel
 fun TShirtScreen(navController: NavController, viewModel: TShirtViewModel) {
     val tShirts by viewModel.tShirts.collectAsState()
 
-    LaunchedEffect(key1 = true) {
-        viewModel.loadTShirts()  // Asegurarse de recargar cuando se navega a esta pantalla
+    LaunchedEffect(Unit) {
+        viewModel.loadTShirts()  // Carga inicial y también se puede llamar después de crear/eliminar
     }
 
     Column {

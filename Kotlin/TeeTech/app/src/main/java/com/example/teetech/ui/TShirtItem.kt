@@ -1,3 +1,6 @@
+package com.example.teetech.ui
+
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -11,38 +14,47 @@ import androidx.compose.ui.unit.dp
 import com.example.teetech.R
 import com.example.teetech.model.TShirt
 import com.example.teetech.viewmodel.TShirtViewModel
-
 @Composable
 fun TShirtItem(tShirt: TShirt, viewModel: TShirtViewModel) {
     Card(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(4.dp)
+        elevation = CardDefaults.cardElevation(4.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Gray)
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(), // Asegura que la fila use todo el ancho disponible
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween // Mantiene los elementos a los extremos
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_tshirt), // Asegúrate de que este es el correcto ID del recurso
+                painter = painterResource(id = R.drawable.ic_tshirt),
                 contentDescription = "Camiseta",
-                tint = parseColor(tShirt.color), // El ícono se colorea según el color de la camiseta
+                tint = parseColor(tShirt.color),
                 modifier = Modifier.size(48.dp)
             )
-            Spacer(modifier = Modifier.width(16.dp)) // Espacio entre el ícono y el texto
-            Column(modifier = Modifier.weight(1f)) {
+
+            Column(
+                modifier = Modifier
+                    .weight(1f) // Asegura que la columna use el espacio disponible
+                    .padding(start = 16.dp) // Añade algo de espacio entre el ícono y el texto
+            ) {
                 Text("Size: ${tShirt.size}", style = MaterialTheme.typography.bodyLarge)
                 Text("Color: ${tShirt.color}", style = MaterialTheme.typography.bodyMedium)
                 Text("Sleeve: ${tShirt.sleeve}", style = MaterialTheme.typography.bodyMedium)
                 Text("Weight: ${tShirt.weight} grams", style = MaterialTheme.typography.bodySmall)
             }
+
             IconButton(onClick = { viewModel.deleteTShirt(tShirt.id) }) {
                 Icon(Icons.Default.Delete, contentDescription = "Delete")
             }
         }
     }
 }
+
 
 fun parseColor(colorName: String): Color {
     return when (colorName.toLowerCase()) {
