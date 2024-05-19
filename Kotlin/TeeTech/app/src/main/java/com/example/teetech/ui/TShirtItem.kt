@@ -21,7 +21,7 @@ fun TShirtItem(tShirt: TShirt, viewModel: TShirtViewModel) {
             .padding(8.dp)
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Gray)
+        colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Row(
             modifier = Modifier
