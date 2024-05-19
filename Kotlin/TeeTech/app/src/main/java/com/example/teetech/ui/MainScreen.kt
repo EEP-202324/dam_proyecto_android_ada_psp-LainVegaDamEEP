@@ -15,7 +15,7 @@ import kotlinx.coroutines.delay
 fun MainScreen(navController: NavController) {
     LaunchedEffect(key1 = true) {
         delay(2000)  // Espera 2 segundos antes de navegar
-        navController.navigate("loadTShirt") {
+        navController.navigate("tShirtList") {  // Cambiar a tShirtList o la ruta correcta
             popUpTo("mainScreen") { inclusive = true }
         }
     }

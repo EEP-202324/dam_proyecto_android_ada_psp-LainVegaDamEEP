@@ -31,9 +31,9 @@ fun SplashScreen(navController: NavController) {
                 easing = FastOutSlowInEasing
             )
         )
-        delay(1000)  // Espera a que la animación termine.
-        navController.navigate("tShirtList") {
-            popUpTo("splashScreen") { inclusive = true }
+        delay(2000)  // 2 segundos de espera
+        navController.navigate("mainScreen") {
+            popUpTo("splashScreen") { inclusive = true }  // Limpiar la pila de navegación
         }
     }
 
@@ -44,11 +44,8 @@ fun SplashScreen(navController: NavController) {
         Image(
             painter = painterResource(id = R.drawable.tshirt_image),
             contentDescription = "Background Image",
-            modifier = Modifier.fillMaxSize().graphicsLayer {
-                scaleX = scale.value
-                scaleY = scale.value
-            },
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop // Ajusta esto para cambiar cómo se ajusta la imagen
+
         )
     }
 }

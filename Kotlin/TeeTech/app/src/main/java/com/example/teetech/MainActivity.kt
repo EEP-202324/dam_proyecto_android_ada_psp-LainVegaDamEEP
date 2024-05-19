@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.teetech.ui.CreateTShirtScreen
+import com.example.teetech.ui.MainScreen
 import com.example.teetech.ui.SplashScreen
 import com.example.teetech.ui.TShirtScreen
 import com.example.teetech.ui.theme.TeeTechTheme
@@ -23,6 +24,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "splashScreen") {
                     composable("splashScreen") { SplashScreen(navController) }
+                    composable("mainScreen") { MainScreen(navController) }  // Añadir MainScreen aquí
                     composable("tShirtList") { TShirtScreen(navController, viewModel()) }
                     composable("createTShirt") { CreateTShirtScreen(navController) }
                 }
